@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${title} ?: 'Danh sách danh mục'">Danh sách danh mục</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .search-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Danh sách danh mục</h1>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm danh mục...">
+    </div>
+    <div class="mb-3">
+        <a th:href="@{/categories/add}" class="btn btn-primary mb-3">Thêm danh mục mới</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}" class="categoryRow">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn btn-success btn-sm">Chỉnh sửa</a>
+                <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Bạn có chắc chắn?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const categoryRows = document.querySelectorAll('.categoryRow');
+
+        searchInput.addEventListener('input', function() {
+            const searchQuery = this.value.toLowerCase().trim();
+
+            categoryRows.forEach(function(row) {
+                const categoryName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (categoryName.includes(searchQuery)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
