@@ -34,6 +34,7 @@ public class ProductController {
         model.addAttribute("products", productService.getAllProducts());
         return "/products/product-list";
     }
+
     // For adding a new product
     @GetMapping("/add")
     public String showAddForm(Model model) {
@@ -41,7 +42,9 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategories()); //Load categories
         return "/products/add-product";
     }
+
     MultipartFile image;
+
     // Process the form for adding a new product
     @PostMapping("/add")
     public String addProduct(@Valid Product product, BindingResult result) throws IOException {
@@ -51,6 +54,7 @@ public class ProductController {
         productService.addProduct(product);
         return "redirect:/products";
     }
+
     // For editing a product
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
@@ -59,6 +63,7 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategories()); //Load categories
         return "/products/update-product";
     }
+
     // Process the form for updating a product
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @Valid Product product,
@@ -71,6 +76,7 @@ public class ProductController {
         return "redirect:/products";
 
     }
+
     // Handle request to delete a product
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
