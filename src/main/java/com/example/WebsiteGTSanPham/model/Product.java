@@ -22,7 +22,7 @@ public class Product {
     private double price;
     private String description;
     private int quantity;
-    private String image;
+    private String imageProduct;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
