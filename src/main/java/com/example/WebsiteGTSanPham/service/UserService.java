@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 import java.util.Optional;
 @Service
 @Slf4j
@@ -53,9 +55,14 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
+    public List<User> findAll() {
+        return userRepository.findAll();
+
+    }
     // Tìm kiếm người dùng dựa trên tên đăng nhập.
     public Optional<User> findByUsername(String username) throws
             UsernameNotFoundException {
         return userRepository.findByUsername(username);
+
+        }
     }
-}
