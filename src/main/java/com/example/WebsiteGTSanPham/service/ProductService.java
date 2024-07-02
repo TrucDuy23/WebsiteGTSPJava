@@ -13,7 +13,6 @@ import java.util.Optional;
 @Transactional
 public class ProductService {
     private final ProductRepository productRepository;
-
     // Retrieve all products that are not soft deleted
     public List<Product> getAllNotDeletedProducts() {
         return productRepository.findAllNotDeleted();
@@ -27,6 +26,11 @@ public class ProductService {
     // Retrieve all soft deleted products
     public List<Product> getAllDeletedProducts() {
         return productRepository.findAllDeleted();
+    }
+
+    // Retrieve all products from the database
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
     // Retrieve a product by its id

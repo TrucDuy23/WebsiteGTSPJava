@@ -53,7 +53,11 @@ public class ProductController {
         model.addAttribute("products", products);
         return "/products/product-list";
     }
-
+    @GetMapping("/product-management")
+    public String showProductManagementPage(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "/products/product-management";
+    }
     // For adding a new product
     @GetMapping("/add")
     public String showAddForm(Model model) {

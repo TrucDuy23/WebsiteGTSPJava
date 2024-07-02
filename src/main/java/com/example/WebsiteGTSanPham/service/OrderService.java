@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -25,6 +27,10 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
     @Transactional
+    public Order getOrderById(Long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        return optionalOrder.orElse(null);
+    }
     public Order createOrder(String customerName, String shippingAddress, String phoneNumber, String email, String notes, String paymentMethod, List<CartItem> cartItems) {
         Order order = new Order();
         order.setCustomerName(customerName);
@@ -45,5 +51,17 @@ public class OrderService {
         }
         cartService.clearCart();
         return order;
+    }
+    public List<Order> getOrdersByCustomer(String customerName) {
+        return orderRepository.findByCustomerName(customerName);
+    }
+
+    public void updateOrderStatus(Long orderId, String status) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
     }
 }
