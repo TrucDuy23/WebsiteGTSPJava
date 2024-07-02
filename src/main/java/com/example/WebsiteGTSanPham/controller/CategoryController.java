@@ -5,6 +5,7 @@ import com.example.WebsiteGTSanPham.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,11 +67,15 @@ public class CategoryController {
     // GET request for deleting category
     @GetMapping("/categories/delete/{id}")
     public String deleteCategory(@PathVariable("id") Long id, Model model) {
-        Category category = categoryService.getCategoryById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:"
-                        + id));
-        categoryService.deleteCategoryById(id);
-        model.addAttribute("categories", categoryService.getAllCategories());
-        return "redirect:/categories";
+        try {
+            Category category = categoryService.getCategoryById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
+            categoryService.deleteCategoryById(id);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "redirect:/categories";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("error", "Error deleting: This category is associated with other records");
+            return "/categories/loi";
+        }
     }
 }

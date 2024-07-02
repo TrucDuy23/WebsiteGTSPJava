@@ -3,6 +3,7 @@ package com.example.WebsiteGTSanPham.model;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,12 @@ public class Product {
     private String name;
     private double price;
     private String description;
+    @Min(0)
     private int quantity;
+    private String imageProduct;
+
+    private Boolean isDelete = false;
+    private Boolean isActive = true;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
