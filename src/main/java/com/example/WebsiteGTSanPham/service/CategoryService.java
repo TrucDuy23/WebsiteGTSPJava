@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-/**
- * Service class for managing categories.
- */
+
+
 @Service
 @RequiredArgsConstructor
 @Transactional

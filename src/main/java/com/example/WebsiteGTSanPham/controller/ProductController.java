@@ -9,16 +9,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/products")
@@ -44,9 +51,26 @@ public class ProductController {
     MultipartFile image;
     // Process the form for adding a new product
     @PostMapping("/add")
-    public String addProduct(@Valid Product product, BindingResult result) throws IOException {
+    public String addProduct(@Valid Product product,
+                             BindingResult result,
+                             @RequestParam("image") MultipartFile imageProduct,
+                             Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("product", product);
             return "/products/add-product";
+        }
+        if (imageProduct != null && imageProduct.getSize() > 0) {
+            try {
+                File saveFile = new ClassPathResource("static/images").getFile();
+                String newImageFile = UUID.randomUUID() + ".png";
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + newImageFile);
+                Files.copy(imageProduct.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                product.setImageProduct(newImageFile);
+                System.out.println("Save directory: " + saveFile.getAbsolutePath());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         productService.addProduct(product);
         return "redirect:/products";
@@ -61,15 +85,28 @@ public class ProductController {
     }
     // Process the form for updating a product
     @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid Product product,
-                                BindingResult result) throws IOException {
+    public String updateProduct(@PathVariable Long id,
+                                @Valid Product product,
+                                BindingResult result,
+                                @RequestParam("image") MultipartFile imageProduct,
+                                Model model) {
         if (result.hasErrors()) {
             product.setId(id); // set id to keep it in the form in case of errors
             return "/products/update-product";
         }
+        if (imageProduct != null && imageProduct.getSize() > 0) {
+            try {
+                File saveFile = new ClassPathResource("static/images").getFile();
+                String newImageFile = UUID.randomUUID() + ".png";
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + newImageFile);
+                Files.copy(imageProduct.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                product.setImageProduct(newImageFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         productService.updateProduct(product);
         return "redirect:/products";
-
     }
     // Handle request to delete a product
     @GetMapping("/delete/{id}")
