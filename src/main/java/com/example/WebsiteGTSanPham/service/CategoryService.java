@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-/**
- * Service class for managing categories.
- */
+
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -49,13 +48,6 @@ public class CategoryService {
         existingCategory.setName(category.getName());
         categoryRepository.save(existingCategory);
     }
-    /**
-     * Delete a category by its id.
-     * @param id the id of the category to delete
-
-
-
-     */
     public void deleteCategoryById(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
