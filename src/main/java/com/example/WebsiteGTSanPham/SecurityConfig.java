@@ -66,11 +66,11 @@ public class SecurityConfig {
                         .failureUrl("/login?error")
                         .permitAll()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/")
-                        .successHandler(successHandler())
-                )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/")
+//                        .successHandler(successHandler())
+//                )
                 .rememberMe(rememberMe -> rememberMe
                         .key("hutech")
                         .rememberMeCookieName("hutech")
@@ -87,6 +87,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic
                         .realmName("hutech")
                 )
+
                 .build();
     }
 
