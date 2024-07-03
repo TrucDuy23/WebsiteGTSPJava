@@ -50,6 +50,8 @@
     <h1 class="confirmation-header">Order Confirmation</h1>
     <p th:text="${message}">Thank you for your order. Your order number is #12345.</p>
     <a th:href="@{/}" class="btn btn-custom">Continue Shopping</a>
+    <a th:href="@{/order/details(orderId=${order.id})}" class="btn btn-custom">View Order Details</a>
+    <a th:href="@{/order/history(customerName=${order.customerName})}" class="btn btn-custom">View Order History</a>
 </section>
 </body>
 </html>

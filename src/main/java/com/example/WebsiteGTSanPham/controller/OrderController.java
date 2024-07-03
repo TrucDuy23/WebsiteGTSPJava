@@ -77,7 +77,13 @@ public class OrderController {
     public String orderHistory(Model model, @RequestParam String customerName) {
         List<Order> orders = orderService.getOrdersByCustomer(customerName);
         model.addAttribute("orders", orders);
-        return "/cart/order-history";
+        return "cart/order-history";
+    }
+    @GetMapping("/historys")
+    public String orderHistory(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "cart/historys";
     }
 
     @PostMapping("/updateStatus")

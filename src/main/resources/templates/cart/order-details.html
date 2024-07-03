@@ -37,7 +37,6 @@
     </table>
 
     <!-- Hiển thị form cập nhật trạng thái đơn hàng chỉ khi người dùng là admin -->
-    <h2>Update Status</h2>
     <form th:action="@{/order/updateStatus}" method="post" th:if="${isAdmin}">
         <input type="hidden" name="orderId" th:value="${order.id}" />
         <select name="status">
