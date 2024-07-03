@@ -55,6 +55,9 @@ public class OrderService {
     public List<Order> getOrdersByCustomer(String customerName) {
         return orderRepository.findByCustomerName(customerName);
     }
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
 
     public void updateOrderStatus(Long orderId, String status) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);

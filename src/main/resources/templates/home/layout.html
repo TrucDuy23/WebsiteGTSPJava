@@ -53,6 +53,10 @@
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                         <a th:href="@{/customers}" class="nav-link text-white">List Tài Khoản </a>
                 </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a th:href="@{/order/historys}" class="nav-link text-white">Lịch sử đơn hàng (Admin)</a>
+                </li>
+
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
